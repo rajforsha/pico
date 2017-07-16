@@ -2,10 +2,10 @@ package com.tesco.tps.pico.daoImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.datastax.driver.core.utils.UUIDs;
 import com.tesco.tps.pico.dao.DocumentDao;
 import com.tesco.tps.pico.domain.Document;
-import com.tesco.tps.pico.repository.DocumentRepository;
+import com.tesco.tps.pico.repository.DocumentCassandraRepository;
+import com.tesco.tps.pico.util.AsyncDataReplication;
 
 /**
  * @author shashi
@@ -14,12 +14,12 @@ import com.tesco.tps.pico.repository.DocumentRepository;
 public class DocumentDaoImpl implements DocumentDao {
 
 	@Autowired
-	private DocumentRepository repository;
+	private DocumentCassandraRepository repository;
 
 	/**
 	 * @return the repository
 	 */
-	public DocumentRepository getRepository() {
+	public DocumentCassandraRepository getRepository() {
 		return repository;
 	}
 
@@ -28,7 +28,11 @@ public class DocumentDaoImpl implements DocumentDao {
 	}
 
 	public Document createDocument(Document doc) {
-		doc.setId(UUIDs.timeBased());
+		try {
+			AsyncDataReplication.queue.put(doc);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		return getRepository().save(doc);
 	}
 

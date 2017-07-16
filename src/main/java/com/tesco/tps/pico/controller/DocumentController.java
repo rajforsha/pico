@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tesco.tps.pico.dao.DocumentDao;
 import com.tesco.tps.pico.domain.Document;
+import com.tesco.tps.pico.service.DocumentService;
 
 /**
  * @author shashi
@@ -19,24 +19,24 @@ import com.tesco.tps.pico.domain.Document;
 public class DocumentController {
 
 	@Autowired
-	private DocumentDao documentDao;
+	private DocumentService documentService;
 
 	/**
 	 * @return the docDao
 	 */
-	public DocumentDao getDocumentDao() {
-		return documentDao;
+	public DocumentService getDocumentService() {
+		return documentService;
 	}
 
 	@RequestMapping("/getDocument/{name}")
 	@GetMapping
 	public Document getDocuemntById(@PathVariable String name) {
-		return getDocumentDao().getDocumentByName(name);
+		return getDocumentService().getDocumentByName(name);
 	}
 
 	@RequestMapping("/createDocument")
 	@PostMapping
 	public Document getDocuemnt(@RequestBody Document doc) {
-		return getDocumentDao().createDocument(doc);
+		return getDocumentService().createDocument(doc);
 	}
 }

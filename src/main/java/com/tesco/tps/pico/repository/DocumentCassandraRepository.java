@@ -9,7 +9,7 @@ import com.tesco.tps.pico.domain.Document;
  * @author shashi
  *
  */
-public interface DocumentRepository extends CrudRepository<Document, String> {
+public interface DocumentCassandraRepository extends CrudRepository<Document, String> {
 
 	@Query("Select * from DOCUMENT where documentName=?0   allow filtering")
 	public Document findByDocumentName(String firstName);

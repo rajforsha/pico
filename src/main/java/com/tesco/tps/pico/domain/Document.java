@@ -1,8 +1,5 @@
 package com.tesco.tps.pico.domain;
 
-import java.io.Serializable;
-import java.util.UUID;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.cassandra.mapping.PrimaryKey;
 import org.springframework.data.cassandra.mapping.Table;
@@ -12,7 +9,8 @@ import org.springframework.data.cassandra.mapping.Table;
  *
  */
 @Table("DOCUMENT")
-public class Document implements Serializable {
+@org.springframework.data.elasticsearch.annotations.Document(indexName = "documentName", type = "documents")
+public class Document implements Domain {
 
 	/**
 	 * 
@@ -21,14 +19,14 @@ public class Document implements Serializable {
 
 	@PrimaryKey
 	@Id
-	private UUID id;
+	private String id;
 
 	private String documentName;
 
 	/**
 	 * @return the id
 	 */
-	public UUID getId() {
+	public String getId() {
 		return id;
 	}
 
@@ -36,7 +34,7 @@ public class Document implements Serializable {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(UUID id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
